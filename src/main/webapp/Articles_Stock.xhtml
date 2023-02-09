@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <f:view contentType="text/html;charset=UTF-8" encoding="UTF-8">
+      <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'/>
+        <h:head>
+        <style type="text/css">
+ @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&#38;display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins" , sans-serif;
+}
+.sidebar{
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 78px;
+  background: #11101D;
+  padding: 6px 14px;
+  z-index: 99;
+  transition: all 0.5s ease;
+}
+.sidebar.open{
+  width: 250px;
+}
+.sidebar .logo-details{
+  height: 60px;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.sidebar .logo-details .icon{
+  opacity: 0;
+  transition: all 0.5s ease;
+}
+.sidebar .logo-details .logo_name{
+  color: #fff;
+  font-size: 20px;
+  font-weight: 600;
+  opacity: 0;
+  transition: all 0.5s ease;
+}
+.sidebar.open .logo-details .icon,
+.sidebar.open .logo-details .logo_name{
+  opacity: 1;
+}
+.sidebar .logo-details #btn{
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  font-size: 22px;
+  transition: all 0.4s ease;
+  font-size: 23px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+.sidebar.open .logo-details #btn{
+  text-align: right;
+}
+.sidebar i{
+  color: #fff;
+  height: 60px;
+  min-width: 50px;
+  font-size: 28px;
+  text-align: center;
+  line-height: 60px;
+}
+.sidebar .nav-list{
+  margin-top: 20px;
+  height: 100%;
+}
+.sidebar li{
+  position: relative;
+  margin: 8px 0;
+  list-style: none;
+}
+.sidebar li .tooltip{
+  position: absolute;
+  top: -20px;
+  left: calc(100% + 15px);
+  z-index: 3;
+  background: #fff;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 15px;
+  font-weight: 400;
+  opacity: 0;
+  white-space: nowrap;
+  pointer-events: none;
+  transition: 0s;
+}
+.sidebar li:hover .tooltip{
+  opacity: 1;
+  pointer-events: auto;
+  transition: all 0.4s ease;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.sidebar.open li .tooltip{
+  display: none;
+}
+.sidebar input{
+  font-size: 15px;
+  color: #FFF;
+  font-weight: 400;
+  outline: none;
+  height: 50px;
+  width: 100%;
+  width: 50px;
+  border: none;
+  border-radius: 12px;
+  transition: all 0.5s ease;
+  background: #1d1b31;
+}
+.sidebar.open input{
+  padding: 0 20px 0 50px;
+  width: 100%;
+}
+.sidebar .bx-search{
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  font-size: 22px;
+  background: #1d1b31;
+  color: #FFF;
+}
+.sidebar.open .bx-search:hover{
+  background: #1d1b31;
+  color: #FFF;
+}
+.sidebar .bx-search:hover{
+  background: #FFF;
+  color: #11101d;
+}
+.sidebar li a{
+  display: flex;
+  height: 100%;
+  width: 100%;
+  border-radius: 12px;
+  align-items: center;
+  text-decoration: none;
+  transition: all 0.4s ease;
+  background: #11101D;
+}
+.sidebar li a:hover{
+  background: #FFF;
+}
+.sidebar li a .links_name{
+  color: #fff;
+  font-size: 15px;
+  font-weight: 400;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.4s;
+}
+.sidebar.open li a .links_name{
+  opacity: 1;
+  pointer-events: auto;
+}
+.sidebar li a:hover .links_name,
+.sidebar li a:hover i{
+  transition: all 0.5s ease;
+  color: #11101D;
+}
+.sidebar li i{
+  height: 50px;
+  line-height: 50px;
+  font-size: 18px;
+  border-radius: 12px;
+}
+.sidebar li.profile{
+  position: fixed;
+  height: 60px;
+  width: 78px;
+  left: 0;
+  bottom: -8px;
+  padding: 10px 14px;
+  background: #1d1b31;
+  transition: all 0.5s ease;
+  overflow: hidden;
+}
+.sidebar.open li.profile{
+  width: 250px;
+}
+.sidebar li .profile-details{
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+.sidebar li img{
+  height: 45px;
+  width: 45px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-right: 10px;
+}
+.sidebar li.profile .name,
+.sidebar li.profile .job{
+  font-size: 15px;
+  font-weight: 400;
+  color: #fff;
+  white-space: nowrap;
+}
+.sidebar li.profile .job{
+  font-size: 12px;
+}
+.sidebar .profile #log_out{
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  background: #1d1b31;
+  width: 100%;
+  height: 60px;
+  line-height: 60px;
+  border-radius: 0px;
+  transition: all 0.5s ease;
+}
+.sidebar.open .profile #log_out{
+  width: 50px;
+  background: none;
+}
+.home-section{
+  position: relative;
+  background: #E4E9F7;
+  min-height: 100vh;
+  top: 0;
+  left: 78px;
+  width: calc(100% - 78px);
+  transition: all 0.5s ease;
+  z-index: 2;
+}
+.sidebar.open ~ .home-section{
+  left: 250px;
+  width: calc(100% - 250px);
+}
+.home-section .text{
+  display: inline-block;
+  color: #11101d;
+  font-size: 25px;
+  font-weight: 500;
+  margin: 18px
+}
+@media (max-width: 420px) {
+  .sidebar li .tooltip{
+    display: none;
+  }
+}
+</style>
+        </h:head>
+        <h:body>
+
+  <div class="sidebar">
+    <div class="logo-details">
+      <i class='bx bx-clinic icon'></i> 
+        <div class="logo_name">Stock management</div>
+        <i class='bx bx-menu' id="btn" ></i>
+    </div>
+    <ul class="nav-list">
+      <li>
+          <i class='bx bx-search' ></i>
+         <input type="text" placeholder="Search..."/>
+         <span class="tooltip">Search</span>
+      </li>
+      <li>
+        <a href="page_d'acceuil.xhtml">
+          <i class='bx bx-grid-alt'></i>
+          <span class="links_name">Page_d'acceuil</span>
+        </a>
+         <span class="tooltip">Page_d'acceuil</span>
+      </li>
+      <li>
+       <a href="Articles_Stock.xhtml">
+         <i class='pi pi-tag' ></i>
+         <span class="links_name">Articles Stock</span>
+       </a>
+       <span class="tooltip">Articles Stock</span>
+     </li>
+     <li>
+       <a href="Articles_Approvisionnement.xhtml">
+         <i class='pi pi-shopping-bag' ></i>
+         <span class="links_name">Articles Approvisionnement</span>
+       </a>
+       <span class="tooltip">Articles Approvisionnement</span>
+     </li>
+     <li>
+       <a href="#">
+         <i class='bx bx-pie-chart-alt-2' ></i>
+         <span class="links_name">Analytics</span>
+       </a>
+       <span class="tooltip">Analytics</span>
+     </li>
+     <li>
+       <a href="#">
+         <i class='bx bx-folder' ></i>
+         <span class="links_name">File Manager</span>
+       </a>
+       <span class="tooltip">Files</span>
+     </li>
+     <li>
+       <a href="#">
+         <i class='bx bx-cart-alt' ></i>
+         <span class="links_name">Order</span>
+       </a>
+       <span class="tooltip">Order</span>
+     </li>
+     <li>
+       <a href="#">
+         <i class='bx bx-heart' ></i>
+         <span class="links_name">Saved</span>
+       </a>
+       <span class="tooltip">Saved</span>
+     </li>
+     <li>
+       <a href="#">
+         <i class='bx bx-cog' ></i>
+         <span class="links_name">Setting</span>
+       </a>
+       <span class="tooltip">Setting</span>
+     </li>
+     <li class="profile">
+         <div class="profile-details">
+         
+           <div class="name_job">
+             <div class="name">Exit</div>
+             
+         </div>
+         </div>
+         
+         <i class='bx bx-log-out' id="log_out" ></i>
+     </li>
+    </ul>
+  </div>
+  <section class="home-section"><br/>
+  <h1  align="center" style="font-size:30px">Articles en Stock</h1>
+   
+   <p:dialog header="Articles en Approvisionnement" widgetVar="dlg1" minHeight="40">
+     <h:form id="bf">
+      <h:panelGroup columns="4" colspan="2"  layout="grid" styleClass="showcase-text-align-center">
+        <div  style="width:150%;margin:0px auto;text-align: center;padding: 5px 10px;">
+          <div class="card" style="width:50%;">
+           <div class="p-grid ui-fluid">
+             <div class="p-col-2 p-md-4">
+               <div class="ui-inputgroup">
+                  <div class="ui-inputgroup-addon"><i class="pi pi-tags"></i> 
+                  </div>
+                      <p:inputText   name="codeArt" placeholder="code Article" id="codeArt" value="#{ArticlesStock.codeArt}" />
+                </div>
+                <div class="ui-inputgroup"> 
+                  <div class="ui-inputgroup-addon" ><i class="pi pi-shopping-cart"></i>
+                  </div>
+                     <p:inputText   id="qteArt"  placeholder="Quantité Article" value="#{ArticlesStock.qteArt}" />
+                </div>
+             </div>
+               
+              <div class="ui-inputgroup">
+                <div class="ui-inputgroup-addon"><i class="pi pi-ticket"></i>
+                </div>
+                   <p:inputText  placeholder="name" id="nomArt" value="#{ArticlesStock.nomArt}"  /> 
+               </div>
+                 <div class="ui-inputgroup"> 
+                   <div class="ui-inputgroup-addon" ><i class="pi pi-dollar"></i>
+                   </div>
+                    <p:inputText   placeholder="Price" id="prixArt" value="#{ArticlesStock.prixArt}"  />
+                 </div>
+         
+                 <div class="ui-inputgroup">
+                   <div class="ui-inputgroup-addon"><i class="pi pi-comment"></i>
+                   </div>
+                    <p:inputTextarea  rows="7" cols="40" placeholder="Description" id="descArt" value="#{ArticlesStock.descArt}"  />
+                 </div>
+            </div>
+          </div>
+         </div>
+        </h:panelGroup>
+        <div style="text-align:center;padding:5px 5px 5px 5px"><br/>
+          <p:commandButton value="Insert" update="ArticlesStock growl" type="submit" icon="pi pi-check"  action="#{ArticlesStock.insert}"/>
+        </div>
+   </h:form>
+   </p:dialog>
+  
+   <p:growl id="growl" showDetail="true" />
+   <div  style="width:80%;margin:0px auto  10px;text-align: right;padding: 0px 10px;">
+      <p:commandButton value="Export as PDF" styleClass="rounded-button ui-button-danger ui-button-flat"  icon="pi pi-file-pdf">
+        <p:dataExporter type="pdf" target="ArticlesStock" fileName="Articles_Stock" pageOnly="true"/>
+      </p:commandButton>
+   </div>
+        
+         <p:dataTable  style="width:99%;padding: 0px 10%;" id="ArticlesStock" value = "#{ArticlesStockDao.getstock()}" var = "a" rowKey="#{ArticlesStock.codeArt}" selection="#{ArticlesStock.codeArt}" selectionMode="single">
+            
+            <p:column headerText="Code">
+                <h:outputText id="codeArtcolumn" value="#{a.codeArt}" />
+            </p:column>
+            
+            <p:column headerText="Quantity">
+                 <h:outputText value="#{a.qteArt}" />
+            </p:column>
+            
+            <p:column headerText="Name">
+                <h:outputText value="#{a.nomArt}" />
+            </p:column>
+            
+            <p:column headerText="Description">
+                <h:outputText value="#{a.descArt}" />
+            </p:column>
+            
+            <p:column headerText="Price">
+                <h:outputText value="#{a.prixArt}" />
+            </p:column>
+            
+             <p:column headerText="Status" exportable="false">
+             <p:badge  value="#{ArticlesStock.Statut(a.qteArt)}" styleClass="p-mr-2" severity="#{ArticlesStock.severity(a.qteArt)}"/>
+            </p:column>
+            
+               <p:column style="width:6rem" exportable="false">
+                  <f:facet name="header">
+                    <p:commandButton value="Insert" type="button" onclick="PF('dlg1').show();" /> 
+                  </f:facet>
+                  <p:growl id="message" showDetail="true"/>
+                  <p:commandButton  styleClass="rounded-button ui-button-flat" icon="pi pi-trash"   update=" ArticlesStock growl" type="submit" action="#{ArticlesStock.deleteid(a.codeArt)}" > 
+                     <p:confirm type="popup" header="Confirmation" message="  Are u sure about deleting Article #{a.codeArt} ?" icon="pi pi-info-circle"/>
+                  </p:commandButton>
+                  <p:confirmPopup global="true">
+                     <p:commandButton value="No" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+                     <p:commandButton value="Yes" type="button" styleClass="ui-confirm-popup-yes" />
+                  </p:confirmPopup>
+                  <p:commandButton icon="pi pi-pencil"  styleClass="rounded-button ui-button-flat"  update="dlg2" oncomplete="PF('dlg2').show();"/>
+          
+  <p:dialog id="dlg2" header="update Articles en Stock" widgetVar="dlg2" minHeight="40"  >
+    <h:form >
+     <h:panelGroup columns="4" colspan="2"  layout="grid" styleClass="showcase-text-align-center">
+     <div class="card" style="width:80%;">
+        <div class="p-grid ui-fluid">
+            <div class="p-col-2 p-md-4">
+                <div class="ui-inputgroup">
+                    <div class="ui-inputgroup-addon"><i class="pi pi-tags"></i> </div>
+                     <p:inputText  style="text-align:center;width:100%;"  name="codeArt" placeholder="code Article" id="codeArt" value="#{a.codeArt}" readonly="true"/>
+                      </div>
+                    <div class="ui-inputgroup"> 
+                    <div class="ui-inputgroup-addon" ><i class="pi pi-shopping-cart"></i></div>
+                      <p:inputText   id="qteArt"  placeholder="Quantité Article" value="#{a.qteArt}" />
+                   </div>
+                   </div>
+                <div class="ui-inputgroup">
+                    <div class="ui-inputgroup-addon"><i class="pi pi-ticket"></i></div>
+                    <p:inputText  placeholder="name" id="nomArt" value="#{a.nomArt}"  /> 
+                  </div>
+                    <div class="ui-inputgroup"> 
+                    <div class="ui-inputgroup-addon" ><i class="pi pi-dollar"></i></div>
+                    <p:inputText   placeholder="Price" id="prixArt" value="#{a.prixArt}"  />
+                </div>
+          <div class="ui-inputgroup">
+                    <div class="ui-inputgroup-addon"><i class="pi pi-comment"></i></div>
+                    <p:inputTextarea  rows="7" cols="40" placeholder="Description" id="descArt" value="#{a.descArt}"  />
+                </div>
+        </div>
+        </div>
+        </h:panelGroup>
+        <div style="text-align:center;padding:5px 5px 5px 5px">
+        <br/>
+        <p:commandButton value="update" update="ArticlesStock growl" type="submit" icon="pi pi-sync"  action="#{ArticlesStock.update}"/>
+          </div>
+    </h:form>
+   </p:dialog>
+   </p:column>
+   </p:dataTable>
+   </section>
+  <script>
+  let sidebar = document.querySelector(".sidebar");
+  let closeBtn = document.querySelector("#btn");
+  let searchBtn = document.querySelector(".bx-search");
+
+  closeBtn.addEventListener("click", ()=>{
+    sidebar.classList.toggle("open");
+    menuBtnChange();//calling the function(optional)
+  });
+
+  searchBtn.addEventListener("click", ()=>{ // Sidebar open when you click on the search iocn
+    sidebar.classList.toggle("open");
+    menuBtnChange(); //calling the function(optional)
+  });
+
+  // following are the code to change sidebar button(optional)
+  function menuBtnChange() {
+   if(sidebar.classList.contains("open")){
+     closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");//replacing the iocns class
+   }else {
+     closeBtn.classList.replace("bx-menu-alt-right","bx-menu");//replacing the iocns class
+   }
+  }
+  </script>
+</h:body>
+</f:view>
+</html>
